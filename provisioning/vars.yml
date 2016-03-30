@@ -1,0 +1,5 @@
+---
+nginx_static_id: default
+
+nginx_static_domains:
+  - localhost

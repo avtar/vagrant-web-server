@@ -1,0 +1,9 @@
+---
+- src: https://github.com/idi-ops/ansible-facts
+  name: facts
+
+- src: https://github.com/idi-ops/ansible-nginx-common
+  name: nginx-common
+
+- src: https://github.com/avtar/ansible-nginx-static
+  name: nginx-static

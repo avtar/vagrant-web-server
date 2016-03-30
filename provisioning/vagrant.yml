@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  user: root
+
+  vars_files:
+    - vars.yml
+    - vagrant-vars.yml
+
+  pre_tasks:
+    - name: Allow the web server to access the Vagrant user's home directory
+      file: 
+        path: /home/vagrant
+        state: directory
+        owner: vagrant
+        mode: 0755
+      tags:
+        - always
+
+  roles:
+    - facts
+    - nginx-common
+    - nginx-static
