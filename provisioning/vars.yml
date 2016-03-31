@@ -3,3 +3,5 @@ nginx_static_id: default
 
 nginx_static_domains:
   - localhost
+
+nginx_static_base_path: /srv/www

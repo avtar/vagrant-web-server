@@ -4,7 +4,6 @@
 
   vars_files:
     - vars.yml
-    - docker-vars.yml
 
   roles:
     - facts

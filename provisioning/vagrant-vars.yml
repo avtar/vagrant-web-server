@@ -1,4 +1,3 @@
 ---
-nginx_static_base_path: /home/vagrant/sync
-
 nginx_static_autoindex: true
+

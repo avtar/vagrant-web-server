@@ -22,12 +22,18 @@ Vagrant.configure(2) do |config|
   #   instance_eval File.read("Vagrantfile.local"), "Vagrantfile.local"
   # end
   
-  app_directory = ENV["VM_HOST_DIR"] || "/Users/avtar/Dropbox/fluid/infusion" 
+  app_directory = ENV["VM_HOST_DIR"]
   
   config.vm.box = "inclusivedesign/centos7"
   
-  # Your working directory will be synced to /home/vagrant/sync in the VM.
-  config.vm.synced_folder "#{app_directory}", "/home/vagrant/sync"
+  # The following shared folder is required for provisioning purposes.
+  config.vm.synced_folder ".", "/srv"  
+  
+  # The /srv/www path is being used so that the web server can access the content being synced from
+  # the host. Other IDI Vagrant projects use the /home/vagrant/sync location but that would require
+  # extra configuration in this case to accommodate the web server would require making the default
+  # 0700 permissions for /home/vagrant more lax.
+  config.vm.synced_folder "#{app_directory}", "/srv/www"
 
   # Port forwarding takes place here. The 'guest' port is used inside the VM
   # whereas the 'host' port is used by your host operating system.
@@ -41,12 +47,10 @@ Vagrant.configure(2) do |config|
     vm.customize ["modifyvm", :id, "--cpus", cpus]
   end
 
-  # The following shared folder is required for provisioning purposes.
-  config.vm.synced_folder ".", "/vagrant"
-
   config.vm.provision "shell", inline: <<-SHELL
     sudo ansible-galaxy install -fr /vagrant/provisioning/requirements.yml
     sudo PYTHONUNBUFFERED=1 ansible-playbook /vagrant/provisioning/vagrant.yml --tags="install,configure,deploy"
+    ln -s /srv/www /home/vagrant/sync
   SHELL
 
 end
