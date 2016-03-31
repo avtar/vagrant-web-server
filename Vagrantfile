@@ -48,8 +48,8 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo ansible-galaxy install -fr /vagrant/provisioning/requirements.yml
-    sudo PYTHONUNBUFFERED=1 ansible-playbook /vagrant/provisioning/vagrant.yml --tags="install,configure,deploy"
+    sudo ansible-galaxy install -fr /srv/provisioning/requirements.yml
+    sudo PYTHONUNBUFFERED=1 ansible-playbook /srv/provisioning/vagrant.yml --tags="install,configure,deploy"
     ln -s /srv/www /home/vagrant/sync
   SHELL
 
